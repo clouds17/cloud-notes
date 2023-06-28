@@ -4,10 +4,14 @@
 
 ## 安装
 全局安装 vue-cli
-`npm install -g vue-cli@2.9.1`
+```bash
+npm install -g vue-cli@2.9.1
+```
 
 使用 vue-cli 创建 基于webpack模板的新项目
-`vue init webpack vue-evernote-client`
+```bash
+vue init webpack vue-evernote-client
+```
 
 版本需一致
 
