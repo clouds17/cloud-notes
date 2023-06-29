@@ -1,0 +1,73 @@
+#notebook-list {
+  flex: 1;
+}
+#notebook-list .btn {
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  margin-left: 10px;
+}
+#notebook-list .btn .iconfont {
+  font-size: 12px;
+}
+#notebook-list input {
+  width: 300px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 3px 5px;
+  outline: none;
+}
+#notebook-list header {
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+#notebook-list main {
+  padding: 30px 40px;
+}
+#notebook-list .layout {
+  max-width: 966px;
+  margin: 0 auto;
+}
+#notebook-list main h3 {
+  font-size: 12px;
+  color: #000;
+}
+#notebook-list main .book-list {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  background-color: #fff;
+  border-radius: 4px;
+  font-weight: bold;
+}
+#notebook-list main .book-list span {
+  font-size: 12px;
+  font-weight: bold;
+  color: #b3c0c8;
+}
+#notebook-list main .date,
+#notebook-list main .action {
+  float: right;
+  margin-left: 10px;
+}
+#notebook-list main .iconfont {
+  color: #1687ea;
+  margin-right: 4px;
+}
+#notebook-list main .notebook {
+  display: block;
+  cursor: pointer;
+}
+#notebook-list main a.notebook:hover {
+  background-color: #f7fafd;
+}
+#notebook-list main a.notebook div {
+  border-bottom: 1px solid #ebebeb;
+  padding: 12px 14px;
+}
+#notebook-list main .error-msg {
+  font-size: 12px;
+  color: red;
+}
