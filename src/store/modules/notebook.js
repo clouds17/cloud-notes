@@ -35,7 +35,11 @@ export default {
         }
     },
     actions: {
-        getNotebooks_actions({ commit }) {
+        getNotebooks_actions({ commit, state, getters }) {
+            // 如果请求过了，那就不请求它了
+            if (state.notebooks !== null) 
+                return Promise.resolve(getters.notebooks)
+
             return new Promise((resolve, reject) => {
                 NotebooksAPI.hx_getNoteBooks()
                     .then(res => {
