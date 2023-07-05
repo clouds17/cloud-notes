@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import $store from '@/store/index.js';
 import Router from 'vue-router'
-import Login from '@/components/Login'
-import NotebookList from '@/components/NotebookList'
-import NoteDetail from '@/components/NoteDetail'
-import Trash from '@/components/Trash'
+
 
 Vue.use(Router)
 
@@ -12,19 +9,20 @@ const router = new Router({
   routes: [
     {
       path: '/login',
-      component: Login
+      component: () => import('@/components/Login.vue')
     },
     {
       path: '/notebooks',
-      component: NotebookList
+      alias: '/',
+      component: () => import('@/components/NotebookList.vue')
     },
     {
       path: '/note',
-      component: NoteDetail
+      component: () => import('@/components/NoteDetail.vue')
     },
     {
       path: '/trash',
-      component: Trash
+      component: () => import('@/components/Trash.vue')
     }
   ]
 })

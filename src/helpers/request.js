@@ -2,7 +2,6 @@ import Axios from "axios";
 import { Message } from 'element-ui';
 import baseURLConfig from "./config-baseURL";
 
-console.log('baseURLConfig', baseURLConfig)
 Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 Axios.defaults.baseURL = baseURLConfig.baseURL
 // 不同域名的时候，客户端存储不了服务端传过来的cookie, 设置 withCredentials(带凭证)

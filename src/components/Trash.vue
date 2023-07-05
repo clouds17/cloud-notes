@@ -83,6 +83,12 @@ export default {
       this.getTrash_actions()
         .then(() => {
             this.setCurTrashNote({curTrashNoteId: this.$route.query.noteId})
+            this.$router.replace({
+              path: '/trash',
+              query: {
+                noteId: this.trashNotes[0] ? this.trashNotes[0].id : ''
+              }
+            })
         })
     },
     onRevert() {

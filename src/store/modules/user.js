@@ -24,7 +24,6 @@ export default {
             return new Promise((resolve, reject) => {
                 Auth.hx_login({ username, password })
                     .then(res => {
-                        console.log(res)
                         commit('setUser', { user: res.data })
                         resolve(res)
                     }).catch(err => {

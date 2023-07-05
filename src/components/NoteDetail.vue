@@ -71,7 +71,6 @@ export default {
         }
     },
     beforeRouteUpdate(to, from, next) {
-        console.log('这里')
         this.$store.commit('setCurNote', {curNoteId: to.query.noteId})
         next()
     },

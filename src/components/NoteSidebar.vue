@@ -51,10 +51,10 @@ export default {
             'notebooks',
             'notes',
             'curBook',
+            'curNote'
         ])
     },
     created() {
-        console.log('notebooks', this.notebooks)
         this.__init()
     },
     methods: {
@@ -68,7 +68,6 @@ export default {
                 .then(() => {
                     this.getCurBook()
                     this.$nextTick(() => {
-                        console.log('curBook', this.curBook)
                         if (this.curBook.id) {
                             this.handleCommand(this.curBook.id)
                         }
@@ -78,7 +77,7 @@ export default {
         },
         handleCommand(notebookId) {
             if (notebookId == 'trash') {
-                return this.$route.push({ path: '/trash' })
+                return this.$router.push({ path: '/trash' })
             }
             if (this.curBook.id != notebookId) {
                 this.getCurBook(notebookId)
@@ -86,6 +85,13 @@ export default {
             this.getNotes_actions({ notebookId })
                 .then(() => {
                     this.$store.commit('setCurNote', { curNoteId: this.$route.query.noteId })
+                    this.$router.replace({
+                        path: '/note',
+                        query: {
+                            notebookId: this.curBook.id || notebookId || '',
+                            noteId: this.notes[0] ? this.notes[0].id : ''
+                        }
+                    })
                 })
         },
         getCurBook(bookId = 0) {
