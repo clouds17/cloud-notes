@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import $store from '@/store/index.js';
 import Router from 'vue-router'
-import Auth from '@/api/auth.js';
 import Login from '@/components/Login'
 import NotebookList from '@/components/NotebookList'
 import NoteDetail from '@/components/NoteDetail'
@@ -19,11 +19,11 @@ const router = new Router({
       component: NotebookList
     },
     {
-      path: '/note/:noteId',
+      path: '/note',
       component: NoteDetail
     },
     {
-      path: '/trash/:noteId',
+      path: '/trash',
       component: Trash
     }
   ]
@@ -33,16 +33,16 @@ router.beforeEach((to, from, next) => {
     console.log('要去登录页')
     next()
   } else {
-    console.log('验证有没有登录')
-    Auth.hx_getInfo().then(res => {
-      if (!res.isLogin) {
-        console.log('哦吼，还没登录哄')
-        next('/login')
-      } else {
-        console.log('原来登录了丫')
-        next()
-      }
-    })
+    $store.dispatch('checkLogin_actions')
+      .then(res => {
+          if (!res.isLogin) {
+            console.log('哦吼，还没登录哄')
+            next('/login')
+          } else {
+            console.log('原来登录了丫')
+            next()
+          }
+      })
   }
 })
 

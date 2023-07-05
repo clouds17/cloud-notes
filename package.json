@@ -12,8 +12,11 @@
   "dependencies": {
     "axios": "0.18.0",
     "element-ui": "2.3.4",
+    "lodash": "4.17.21",
+    "markdown-it": "13.0.1",
     "vue": "2.5.2",
-    "vue-router": "3.0.1"
+    "vue-router": "3.0.1",
+    "vuex": "3.3.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",

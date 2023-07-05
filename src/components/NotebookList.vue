@@ -5,49 +5,54 @@
        </header>
        <main>
             <div class="layout">
-                <h3>笔记本列表({{ bookList.length }})</h3>
-                <div class="book-list">
+                <h3>笔记本列表({{ notebooks.length }})</h3>
+                <div class="book-list" v-if="notebooks.length">
                     <router-link class="notebook" 
-                        v-for="(item, index) in bookList" :key="index"
-                        :to="`/NoteDetail?id=${item.id}`"    
+                        v-for="(item, index) in notebooks" :key="index"
+                        :to="`/note?notebookId=${item.id}`"    
                     >
                         <div>
                             <span class="iconfont icon-notebook"></span> {{ item.title }} 
                             <span>{{ item.noteCounts }}</span>
-                            <span class="action" @click.stop.prevent="onDelete(item, index)">删除</span>
-                            <span class="action" @click.stop.prevent="onEdit(item, index)">编辑</span>
-                            <span class="date">{{ item.friendlyCreatedAt }}</span>
+                            <span class="action" @click.stop.prevent="onDelete(item)">删除</span>
+                            <span class="action" @click.stop.prevent="onEdit(item)">编辑</span>
+                            <span class="date">{{ item.createdAtFriendly }}</span>
                         </div>
                     </router-link>
                 </div>
+                <div v-else class="noneBooks"> 请添加笔记本 </div>
             </div>
        </main>
   </div>
 </template>
 
 <script>
-import Notebooks from '@/api/notebooks.js';
-import { friendlyDate } from '@/helpers/util.js';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'NotebookList',
     data() {
         return {
-            msg: '笔记本列表',
-            bookList: []
+            msg: '笔记本列表'
         }
     },
     created() {
         this.__init()
     },
     computed: {
+        ...mapGetters([
+            'notebooks'
+        ])
     },
     methods: {
+        ...mapActions([
+            'getNotebooks_actions',
+            'addNotebook_actions',
+            'updateNotebook_actions',
+            'deleteNotebook_actions'
+        ]),
         __init() {
-            Notebooks.hx_getNoteBooks()
-                .then(res => {
-                    console.log('数据', res)
-                    this.bookList = res.data
-                })
+            // 获取notebooks列表
+            this.getNotebooks_actions()
         },
         onCreate() {
             this.$prompt('输入新笔记本标题', '创建笔记本', {
@@ -55,19 +60,13 @@ export default {
                 cancelButtonText: '取消',
                 inputPattern: /^.{1,30}$/,
                 inputErrorMessage: '标题不能为空，且不超过30个字符'
-            }).then(({ value }) => {
-               Notebooks.hx_addNoteBook({ title: value })
-                .then(res => {
-                    res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt)
-                    this.bookList.unshift(res.data)
-                    this.$message({
-                        type: 'success',
-                        message: res.msg
-                    });
-                })
+            }).then( ({ value }) => {
+                return this.addNotebook_actions({ title: value })
+            }).then(res => {
+                this.$message.success(res.msg)
             })
         },
-        onEdit(item, index) {
+        onEdit(item) {
             this.$prompt('修改笔记本标题', '修改笔记本', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -75,35 +74,27 @@ export default {
                 inputPattern: /^.{1,30}$/,
                 inputErrorMessage: '标题不能为空，且不超过30个字符'
             }).then(({ value }) => {
-                Notebooks.hx_updateNoteBook(item.id, { title: value })
-                .then(res => {
-                    this.bookList[index].title = value
-                    this.$message({
-                        type: 'success',
-                        message: res.msg
-                    });
+                return this.updateNotebook_actions({ 
+                    notebookId: item.id, 
+                    title: value 
                 })
+            }).then(res => {
+                this.$message.success(res.msg)
             })
 
         },
-        onDelete(item, index) {
+        onDelete(item) {
             this.$confirm('确定要删除当前笔记本吗?', '删除笔记本', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then((res) => {
-                Notebooks.hx_deleteNoteBook(item.id)
-                    .then(res => {
-                        this.bookList.splice(index, 1)
-                        this.$message({
-                            type: 'success',
-                            message: res.msg
-                        });
-                    })
+                return this.deleteNotebook_actions({
+                    notebookId: item.id
+                })
+            }).then(res => {
+                this.$message.success(res.msg)
             })
-        },
-        friendlyDate_func(createdAt) {
-           return friendlyDate(createdAt)
         }
     }
 }

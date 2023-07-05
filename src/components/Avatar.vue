@@ -3,34 +3,22 @@
 </template>
 
 <script>
-import Auth from '@/api/auth.js';
-import $bus from '@/helpers/bus.js';
+import { mapGetters } from 'vuex';
 export default {
     data() {
-        return {
-            username: '未登录'
-        }
+        return {}
     },
     computed: {
-        slug() {
-            return this.username.charAt(0)
-        }
+       ...mapGetters([
+        'username',
+        'slug'
+       ])
     },
     created() {
-        $bus.$on('userInfo', (user) => {
-            
-            this.username = user.username
-        })
-        Auth.hx_getInfo().then(res => {
-            console.log('res', res)
-            if (res.isLogin) {
-                this.username = res.data.username
-            }
-        })
+        
+        
     },
-    beforeDestroy() {
-        $bus.$off('userInfo', (e) => {})
-    }
+   
 }
 </script>
 

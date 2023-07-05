@@ -34,8 +34,7 @@
 
 <script>
 
-import Auth from '@/api/auth.js';
-import $bus from '@/helpers/bus.js';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     data() {
@@ -57,10 +56,11 @@ export default {
             }
         }
     },
-    created() {
-        console.log('auth', Auth)
-    },
     methods: {
+        ...mapActions([
+            'login_actions',
+            'register_actions'
+        ]),
         showLogin() {
             this.isShowLogin = true
             this.isShowRegister = false
@@ -91,11 +91,11 @@ export default {
                 return 
             }
        
-            Auth.hx_register({
+            this.register_actions({
                 username: this.register.username,
                 password: this.register.password
-            }).then(res => {
-                this.success_func('login', res.data)
+            }).then((res) => {
+                this.success_func('register', res.data)
             }).catch(err => {
                 this.fail_func('register', err)
             })
@@ -112,22 +112,18 @@ export default {
                 return
             }
             
-            Auth.hx_login({
+            this.login_actions({
                 username: this.login.username,
                 password: this.login.password
             }).then(res => {
                 this.success_func('login', res.data)
             }).catch(err => {
-                console.log('err', err)
                 this.fail_func('login', err)
             })
         },
         success_func(type, data) {
             this[type].isError = false
             this[type].notice = ''
-            $bus.$emit('userInfo', {
-                username: data.username
-            })
             this.$router.push({ path: '/notebooks' })
         },
         fail_func(type, data) {

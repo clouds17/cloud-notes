@@ -1,0 +1,64 @@
+.note-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.note-detail .note-detail-ct {
+  height: 100%;
+}
+.note-detail .note-empty {
+  font-size: 50px;
+  color: #ccc;
+  text-align: center;
+  margin-top: 100px;
+}
+.note-detail .note-bar {
+  padding: 4px 20px;
+  border-bottom: 1px solid #eee;
+}
+.note-detail .note-bar:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.note-detail .note-bar span {
+  font-size: 12px;
+  color: #999;
+  margin-right: 4px;
+}
+.note-detail .note-bar .iconfont {
+  float: right;
+  margin-left: 4px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.note-detail .note-title input,
+.note-detail .note-title span {
+  display: inline-block;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding: 10px 20px;
+}
+.note-detail .editor {
+  height: calc(100% - 70px);
+  position: relative;
+}
+.note-detail textarea,
+.note-detail .preview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+.note-detail textarea {
+  border: none;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  font-family: 'Monaco', courier, monospace;
+}
+.note-detail code {
+  color: #f66;
+}

@@ -18,7 +18,8 @@ export default {
             request(URL.GET).then(res => {
                 res.data = res.data.sort((notebook1, notebook2) => notebook1.createdAt < notebook2.createdAt ? 1 : -1)
                 res.data.map(notebook => {
-                    notebook.friendlyCreatedAt = friendlyDate(notebook.createdAt)
+                    notebook.createdAtFriendly = friendlyDate(notebook.createdAt)
+                    notebook.updatedAtFriendly = friendlyDate(notebook.updatedAt)
                 })
                 resolve(res)
             }).catch(err => {
@@ -26,8 +27,18 @@ export default {
             })
         })
     },
-
-    hx_addNoteBook: ({ title = '' } = { title: '' }) => request(URL.ADD, 'POST', { title }),
+    hx_addNoteBook: ({ title = '' } = { title: '' }) => {
+        return new Promise((resolve, reject) => {
+            request(URL.ADD, 'POST', { title })
+                .then(res => {
+                    res.data.createdAtFriendly = friendlyDate(res.data.createdAt)
+                    res.data.updatedAtFriendly = friendlyDate(res.data.updatedAt)
+                    resolve(res)
+                }).catch(err => {
+                    reject(err)
+                })
+        })
+    },
 
     hx_updateNoteBook: (notebookId, { title = '' } = { title: '' }) => request(URL.UPDATE.replace(':id', notebookId), 'PATCH', { title }),
 
